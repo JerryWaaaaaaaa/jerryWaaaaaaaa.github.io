@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+	<title>Western Desert</title>
+	<script src="sketch.js"></script>
+	<script src="map.js"></script>
+	<script src="player.js"></script>
+	<script src="zombies.js"></script>
+	<script src="p5/p5.js"></script>
+	<script src="p5/p5.sound.js"></script>
+	<script src="p5/p5.speech.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC|Walter+Turncoat" rel="stylesheet">
+	<style>
+		#canvasBox{
+			width:80%;
+			margin:auto;
+			margin-top: 50px;
+		}
+
+		#content{
+			width:60%;
+			margin:auto;
+		}
+
+		body{
+			background-color: rgb(255,246,220);
+		}
+
+		h2{
+			color:rgb(152,85,77);
+			text-align: center;
+			font-size: 50px;
+			font-family: 'Walter Turncoat', cursive;
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+
+		#copyright{
+			font-size: 22px;
+		}
+
+		p{
+			text-align: center;
+			font-size: 26px;
+			font-family: 'Amatic SC', cursive;
+			margin-top: 0px;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+
+<body>
+	<h2>Western Desert</h2>
+	<div id="canvasBox"></div>
+	<p id="copyright">&copy Jerry Wang - Oct, 2018</p>
+
+	<div id="content">
+		<p>Use W A S D to move up, left, down, and right.</p>
+		<p>Use J to fire.</p>
+		<p>Use 1, 2, 3 to switch between different weapons.</p>
+		<p>You can change difficulty level in Setting. The default difficulty is EASY.</p>
+	</div>
+</body>
