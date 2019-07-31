@@ -94,7 +94,7 @@ var buttonClickPlayed = false;
 // for loading interface
 var loadCounter = 0; // count how many files have loaded
 var loaded = false; // count if all files are loaded
-var maxFile = 35; // quantity of all files to be load
+var maxFile = 36; // quantity of all files to be load
 
 var worldParameters = {
   tileSize: 25,
