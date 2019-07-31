@@ -145,40 +145,6 @@ function preload(){
   canvasHeight = canvasWidth * 9/16;
   moduleWidth = canvasWidth/50;
   moduleHeight = moduleWidth;
-  /*
-  startImage = loadImage("tiles/begin.png");
-  startButton = loadImage("tiles/startButton.png");
-  settingButton = loadImage("tiles/setting.png");
-  settingMenu = loadImage("tiles/settingMenu.png");
-  backButton = loadImage("tiles/back.png");
-  easy = loadImage("tiles/easy.png");
-  medium = loadImage("tiles/medium.png");
-  hard = loadImage("tiles/hard.png");
-  endImage = loadImage("tiles/end.png");
-  endButton = loadImage("tiles/endButton.png");
-  arrow = loadImage("tiles/arrow.png");
-  for(var i = 0; i < 7; i ++ ){
-    var fileName = loadImage("tiles/pieces-" + i + ".png");
-    piecesImage[i] = fileName;
-  }
-  myFont = loadFont("fonts/Montserrat-Medium.ttf");
-  bgMusic = loadSound("music/background.wav");
-  footStep = loadSound("music/footstep.wav");
-  glockReload = loadSound("music/glockReload.wav");
-  glockShot = loadSound("music/glockShot.wav");
-  M4A1Reload = loadSound("music/m4a1Reload.mp3");
-  M4A1Shot = loadSound("music/m4a1Shot.wav");
-  RPGReload = loadSound("music/rpgReload.wav");
-  RPGShot = loadSound("music/rpgShot.wav");
-  hurtSound = loadSound("music/hurt.wav");
-  piecesSound = loadSound("music/pieces.wav");
-  boxSound = loadSound("music/box.wav");
-  buttonHover = loadSound("music/buttonHover.wav");
-  buttonClick = loadSound("music/buttonClick.wav");
-  for(var i = 0; i < 4; i ++ ){
-    var fileName = loadSound("music/zombie" + i + ".wav");
-    zombiesSound.push(fileName);
-  }*/
 }
 
 function windowResized(){
@@ -229,7 +195,7 @@ function setup(){
     }
 
     // myFont = loadFont("fonts/Montserrat-Medium.ttf");
-    myFont = gameLoadFont(loadCounter, myFont, "fonts/Montserrat-Medium.ttf");
+    myFont = gameLoadFont(loadCounter, myFont, "fonts/IndieFlower-Regular.ttf");
 
     // bgMusic = loadSound("music/background.wav");
     bgMusic = gameLoadSound(loadCounter, bgMusic, "music/background.wav");
@@ -264,32 +230,32 @@ function setup(){
     }
 
     // preset of the sound detection
-    //scareSound = new p5.AudioIn();
     scareSound = new p5.SpeechRec();
     scareSound.continuous = true;
     scareSound.interimResults = true;
     scareSound.onResult = parseResult;
     scareSound.start();
-
     reset();
 
 }
 
 function draw(){
     if(!loaded){
+      cursor(ARROW);
       background(231,167,114);
       push();
       translate(canvasWidth/2, canvasHeight/2);
       noStroke();
       var rectWidth = map(loadCounter, 0, maxFile, 0, canvasWidth/2);
       fill(255,247,225);
-      rect(-canvasWidth/4,-15,canvasWidth/2,30);
+      rect(-canvasWidth/4,-15,canvasWidth/2,30,15);
       fill(52,19,18);
-      rect(-canvasWidth/4,-15,rectWidth,30);
+      rect(-canvasWidth/4,-15,rectWidth,30,15);
       pop();
     }else if(loaded){
       // before game starts
       if(!start && !over){
+        cursor(ARROW);
         if(!settingMenuOpen){
           image(startImage,0,0,canvasWidth, canvasHeight);
           // start Button
@@ -393,6 +359,7 @@ function draw(){
 
       // game starts
       if(start && !over){
+          noCursor();
           if(!bgPlayed){
             bgMusic.loop();
             bgPlayed = true;
@@ -540,7 +507,7 @@ function draw(){
           text("Score",50,40);
           text(score, 50 + length0, 40);
           // display bullet number
-          textFont(myFont,18);
+          textFont(myFont,20);
           fill(20);
           var length1 = textWidth("Glock18") + 10;
           var length2 = textWidth("M4A1") + 10;
@@ -564,18 +531,24 @@ function draw(){
 
       // game ends
       if(!start && over){
+        cursor(ARROW);
         image(endImage,0,0,canvasWidth, canvasHeight);
-        if(mouseX > canvasWidth * 0.14 && mouseX < canvasWidth * 0.14 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.38 && mouseY < canvasHeight * 0.38 + canvasWidth * 0.2 * 0.35){
+        // show final score
+        textFont(myFont,40);
+        fill(52,19,18);
+        text("Final Score is: ", canvasWidth * 0.54, canvasHeight * 0.5);
+        text(score, canvasWidth * 0.54, canvasHeight * 0.55);
+        if(mouseX > canvasWidth * 0.54 && mouseX < canvasWidth * 0.54 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.58 && mouseY < canvasHeight * 0.58 + canvasWidth * 0.2 * 0.35){
           push();
           tint(255,200);
-          image(endButton, canvasWidth * 0.14, canvasHeight * 0.375, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+          image(endButton, canvasWidth * 0.54, canvasHeight * 0.575, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
           pop();
           if(!buttonHoverPlayed){
             buttonHover.play();
             buttonHoverPlayed = true;
           }
         }else{
-          image(endButton, canvasWidth * 0.14, canvasHeight * 0.38, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+          image(endButton, canvasWidth * 0.54, canvasHeight * 0.58, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
           buttonHoverPlayed = false;
         }
       }
@@ -1073,8 +1046,8 @@ function mousePressed(){
   }
 
   if(!start && over){
-    if(mouseX > canvasWidth * 0.14 && mouseX < canvasWidth * 0.14 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.375 && mouseY < canvasHeight * 0.375 + canvasWidth * 0.2 * 0.35){
-      image(endButton, canvasWidth * 0.14, canvasHeight * 0.38, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+    if(mouseX > canvasWidth * 0.54 && mouseX < canvasWidth * 0.54 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.575 && mouseY < canvasHeight * 0.575 + canvasWidth * 0.2 * 0.35){
+      image(endButton, canvasWidth * 0.54, canvasHeight * 0.58, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
       buttonClick.play();
       over = false;
       clearAll();
@@ -1134,5 +1107,7 @@ function reset(){
   theWorld.tileMap[boxRow][boxCol + 1] = 0;
   theWorld.tileMap[boxRow + 1][boxCol] = 0;
   theWorld.tileMap[boxRow + 1][boxCol + 1] = 0;
+
+  bgMusic.stop();
 
 }
