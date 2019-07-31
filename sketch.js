@@ -47,6 +47,7 @@ var endButton;
 var endImage;
 var arrow;
 
+// game-related virables
 var bgMusic;
 var footStep;
 var glockReload;
@@ -65,6 +66,22 @@ var buttonClick;
 var wordArray;
 var mostRecentWord;
 
+// for lootbox
+var boxExist;
+var boxLocation;
+
+// for difficulty setting
+var maxZombie;
+var difficulty;
+
+// for pre-game & game start
+var start = false;
+var over = false;
+var bgPlayed = false;
+var preScore;
+var score;
+
+// for pre-game interface buttons
 var button1HoverPlayed = false;
 var button2HoverPlayed = false;
 var button3HoverPlayed = false;
@@ -74,17 +91,10 @@ var button6HoverPlayed = false;
 var settingMenuOpen = false;
 var buttonClickPlayed = false;
 
-var start = false;
-var over = false;
-var bgPlayed = false;
-var preScore;
-var score;
-
-var boxExist;
-var boxLocation;
-
-var maxZombie;
-var difficulty;
+// for loading interface
+var loadCounter = 0; // count how many files have loaded
+var loaded = false; // count if all files are loaded
+var maxFile = 35; // quantity of all files to be load
 
 var worldParameters = {
   tileSize: 25,
@@ -94,9 +104,48 @@ var worldParameters = {
   solidTiles: {0:false, 1:false, 2:false, 3:false, 4:false, 5:false, 6:false, 96:false, 97:false, 98:false, 99:false}
 };
 
+function gameLoadImage(index, varName, fileName){
+    varName = loadImage(fileName, imageLoaded);
+    function imageLoaded(){
+      loadCounter ++;
+      console.log(loadCounter + " " + fileName, loaded);
+      if(loadCounter >= maxFile){
+        loaded = true;
+      }
+    }
+    return varName;
+}
+
+function gameLoadFont(index, varName, fileName){
+    varName = loadFont(fileName, fontLoaded);
+    function fontLoaded(){
+      loadCounter ++;
+      console.log(loadCounter + " " + fileName, loaded);
+      if(loadCounter >= maxFile){
+        loaded = true;
+      }
+    }
+    return varName;
+}
+
+function gameLoadSound(index, varName, fileName){
+    varName = loadSound(fileName, soundLoaded);
+    function soundLoaded(){
+      loadCounter ++;
+      console.log(loadCounter + " " + fileName, loaded);
+      if(loadCounter >= maxFile){
+        loaded = true;
+      }
+    }
+    return varName;
+}
+
 function preload(){
-  canvasWidth = windowWidth* 0.8;
+  canvasWidth = windowWidth * 0.8;
   canvasHeight = canvasWidth * 9/16;
+  moduleWidth = canvasWidth/50;
+  moduleHeight = moduleWidth;
+  /*
   startImage = loadImage("tiles/begin.png");
   startButton = loadImage("tiles/startButton.png");
   settingButton = loadImage("tiles/setting.png");
@@ -129,7 +178,7 @@ function preload(){
   for(var i = 0; i < 4; i ++ ){
     var fileName = loadSound("music/zombie" + i + ".wav");
     zombiesSound.push(fileName);
-  }
+  }*/
 }
 
 function windowResized(){
@@ -150,6 +199,70 @@ function setup(){
     canvas.parent("canvasBox");
     background(233,168,109);
 
+
+    //startImage = loadImage("tiles/begin.png");
+    startImage = gameLoadImage(loadCounter, startImage, "tiles/begin.png");
+    // startButton = loadImage("tiles/startButton.png");
+    startButton = gameLoadImage(loadCounter, startButton, "tiles/startButton.png");
+    // settingButton = loadImage("tiles/setting.png");
+    settingButton = gameLoadImage(loadCounter, settingButton, "tiles/setting.png");
+    // settingMenu = loadImage("tiles/settingMenu.png");
+    settingMenu = gameLoadImage(loadCounter, settingMenu, "tiles/settingMenu.png");
+    // backButton = loadImage("tiles/back.png");
+    backButton = gameLoadImage(loadCounter, backButton, "tiles/back.png");
+    // easy = loadImage("tiles/easy.png");
+    easy = gameLoadImage(loadCounter, backButton, "tiles/easy.png");
+    // medium = loadImage("tiles/medium.png");
+    medium = gameLoadImage(loadCounter, backButton, "tiles/medium.png");
+    // hard = loadImage("tiles/hard.png");
+    hard = gameLoadImage(loadCounter, backButton, "tiles/hard.png");
+    // endImage = loadImage("tiles/end.png");
+    endImage = gameLoadImage(loadCounter, backButton, "tiles/end.png");
+    // endButton = loadImage("tiles/endButton.png");
+    endButton = gameLoadImage(loadCounter, backButton, "tiles/endButton.png");
+    // arrow = loadImage("tiles/arrow.png");
+    arrow = gameLoadImage(loadCounter, backButton, "tiles/arrow.png");
+    for(var i = 0; i < 7; i ++ ){
+        // var fileName = loadImage("tiles/pieces-" + i + ".png");
+        // piecesImage[i] = fileName;
+        piecesImage[i] = gameLoadImage(loadCounter, piecesImage[i], "tiles/pieces-" + i + ".png");
+    }
+
+    // myFont = loadFont("fonts/Montserrat-Medium.ttf");
+    myFont = gameLoadFont(loadCounter, myFont, "fonts/Montserrat-Medium.ttf");
+
+    // bgMusic = loadSound("music/background.wav");
+    bgMusic = gameLoadSound(loadCounter, bgMusic, "music/background.wav");
+    // footStep = loadSound("music/footstep.wav");
+    footStep = gameLoadSound(loadCounter, footStep, "music/footstep.wav");
+    // glockReload = loadSound("music/glockReload.wav");
+    glockReload = gameLoadSound(loadCounter, glockReload, "music/glockReload.wav");
+    // glockShot = loadSound("music/glockShot.wav");
+    glockShot = gameLoadSound(loadCounter, glockShot, "music/glockShot.wav");
+    // M4A1Reload = loadSound("music/m4a1Reload.mp3");
+    M4A1Reload = gameLoadSound(loadCounter, M4A1Reload, "music/m4a1Reload.mp3");
+    // M4A1Shot = loadSound("music/m4a1Shot.wav");
+    M4A1Shot = gameLoadSound(loadCounter, M4A1Shot, "music/m4a1Shot.wav");
+    // RPGReload = loadSound("music/rpgReload.wav");
+    RPGReload = gameLoadSound(loadCounter, RPGReload, "music/rpgReload.wav");
+    // RPGShot = loadSound("music/rpgShot.wav");
+    RPGShot = gameLoadSound(loadCounter, RPGShot, "music/rpgShot.wav");
+    // hurtSound = loadSound("music/hurt.wav");
+    hurtSound = gameLoadSound(loadCounter, hurtSound, "music/hurt.wav");
+    // piecesSound = loadSound("music/pieces.wav");
+    piecesSound = gameLoadSound(loadCounter, piecesSound, "music/pieces.wav");
+    // boxSound = loadSound("music/box.wav");
+    boxSound = gameLoadSound(loadCounter, boxSound, "music/box.wav");
+    // buttonHover = loadSound("music/buttonHover.wav");
+    buttonHover = gameLoadSound(loadCounter, buttonHover, "music/buttonHover.wav");
+    // buttonClick = loadSound("music/buttonClick.wav");
+    buttonClick = gameLoadSound(loadCounter, buttonClick, "music/buttonClick.wav");
+    for(var i = 0; i < 4; i ++ ){
+    //   var fileName = loadSound("music/zombie" + i + ".wav");
+    //   zombiesSound.push(fileName);
+        zombiesSound[i] = gameLoadSound(loadCounter, zombiesSound[i], "music/zombie" + i + ".wav");
+    }
+
     // preset of the sound detection
     //scareSound = new p5.AudioIn();
     scareSound = new p5.SpeechRec();
@@ -163,299 +276,310 @@ function setup(){
 }
 
 function draw(){
-
-  // before game starts
-  if(!start && !over){
-
-    if(!settingMenuOpen){
-      image(startImage,0,0,canvasWidth, canvasHeight);
-      // start Button
-      if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.5 && mouseY < canvasHeight * 0.5 + canvasWidth * 0.2 * 0.35){
-        push();
-        tint(255,200);
-        image(startButton, canvasWidth * 0.51, canvasHeight * 0.495, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-        pop();
-        if(!button1HoverPlayed){
-          buttonHover.play();
-          button1HoverPlayed = true;
-        }
-      }else{
-        image(startButton, canvasWidth * 0.51, canvasHeight * 0.5, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-        button1HoverPlayed = false;
-      }
-      // setting button
-      if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.645 && mouseY < canvasHeight * 0.645 + canvasWidth * 0.2 * 0.35){
-        push();
-        tint(255,200);
-        image(settingButton, canvasWidth * 0.51, canvasHeight * 0.645, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-        pop();
-        if(!button2HoverPlayed){
-          buttonHover.play();
-          button2HoverPlayed = true;
-        }
-      }else{
-        image(settingButton, canvasWidth * 0.51, canvasHeight * 0.65, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-        button2HoverPlayed = false;
-      }
-    }
-
-    // setting interface
-    if(settingMenuOpen){
+    if(!loaded){
+      background(231,167,114);
       push();
-      image(startImage,0,0,canvasWidth, canvasHeight);
+      translate(canvasWidth/2, canvasHeight/2);
       noStroke();
-      fill(255,255,255,100);
-      rect(0,0,canvasWidth, canvasHeight);
+      var rectWidth = map(loadCounter, 0, maxFile, 0, canvasWidth/2);
+      fill(255,247,225);
+      rect(-canvasWidth/4,-15,canvasWidth/2,30);
+      fill(52,19,18);
+      rect(-canvasWidth/4,-15,rectWidth,30);
       pop();
-
-      image(settingMenu, canvasWidth/2 - canvasWidth/4, canvasHeight/2 - canvasHeight * 0.44, canvasWidth/2, canvasHeight * 0.88);
-      // back button
-      if(mouseX > canvasWidth*0.18 && mouseX < canvasWidth*0.18 + canvasWidth * 0.06 && mouseY > canvasHeight/2 - canvasHeight * 0.4 && mouseY < canvasHeight/2 - canvasHeight * 0.4 + canvasWidth * 0.06){
-        push();
-        tint(255,220);
-        image(backButton, canvasWidth*0.18, canvasHeight/2 - canvasHeight * 0.4, canvasWidth * 0.06, canvasWidth * 0.06);
-        pop();
-        if(!button3HoverPlayed){
-          buttonHover.play();
-          button3HoverPlayed = true;
+    }else if(loaded){
+      // before game starts
+      if(!start && !over){
+        if(!settingMenuOpen){
+          image(startImage,0,0,canvasWidth, canvasHeight);
+          // start Button
+          if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.5 && mouseY < canvasHeight * 0.5 + canvasWidth * 0.2 * 0.35){
+            push();
+            tint(255,200);
+            image(startButton, canvasWidth * 0.51, canvasHeight * 0.495, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            pop();
+            if(!button1HoverPlayed){
+              buttonHover.play();
+              button1HoverPlayed = true;
+            }
+          }else{
+            image(startButton, canvasWidth * 0.51, canvasHeight * 0.5, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            button1HoverPlayed = false;
+          }
+          // setting button
+          if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.645 && mouseY < canvasHeight * 0.645 + canvasWidth * 0.2 * 0.35){
+            push();
+            tint(255,200);
+            image(settingButton, canvasWidth * 0.51, canvasHeight * 0.645, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            pop();
+            if(!button2HoverPlayed){
+              buttonHover.play();
+              button2HoverPlayed = true;
+            }
+          }else{
+            image(settingButton, canvasWidth * 0.51, canvasHeight * 0.65, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            button2HoverPlayed = false;
+          }
         }
-      }else{
-        button3HoverPlayed = false;
-        image(backButton, canvasWidth*0.18, canvasHeight/2 - canvasHeight * 0.4, canvasWidth * 0.06, canvasWidth * 0.06);
-      }
-      // easy button
-      if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3){
-        push();
-        tint(255,220);
-        image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-        pop();
-        if(!button4HoverPlayed){
-          buttonHover.play();
-          button4HoverPlayed = true;
-        }
-      }else{
-        button4HoverPlayed = false;
-        image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-      }
-      // medium button
-      if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3&& mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3){
-        push();
-        tint(255,220);
-        image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-        pop();
-        if(!button5HoverPlayed){
-          buttonHover.play();
-          button5HoverPlayed = true;
-        }
-      }else{
-        button5HoverPlayed = false;
-        image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-      }
-      // hard button
-      if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3 * 2 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3 * 2){
-        push();
-        tint(255,220);
-        image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-        pop();
-        if(!button6HoverPlayed){
-          buttonHover.play();
-          button6HoverPlayed = true;
-        }
-      }else{
-        button6HoverPlayed = false;
-        image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-      }
-    }
-  }
 
-  // game starts
-  if(start && !over){
-      if(!bgPlayed){
-        bgMusic.loop();
-        bgPlayed = true;
-      }
-      background(233,168,109);
-      //print(frameRate());
+        // setting interface
+        if(settingMenuOpen){
+          push();
+          image(startImage,0,0,canvasWidth, canvasHeight);
+          noStroke();
+          fill(255,255,255,100);
+          rect(0,0,canvasWidth, canvasHeight);
+          pop();
 
-      updateDifficulty();
-
-      // draw the map
-      theWorld.displayWorld();
-      offsetX = theWorld.offsetX;
-      offsetY = theWorld.offsetY;
-
-      // draw bullets
-      push();
-      translate(thePlayer.x, thePlayer.y);
-      for(var i = 0; i < bullets.length; i ++ ){
-        bullets[i].updatePosition();
-        bullets[i].checkEdge();
-        bullets[i].checkHit();
-        bullets[i].display();
-        if(!bullets[i].life){
-          bullets.splice(1, i);
-        }
-      }
-      pop();
-
-      // draw the bloods
-      if(bloods.length > 0){
-        for(var i = 0; i < bloods.length; i ++ ){
-          bloods[i].update();
-          bloods[i].display();
-          if(!bloods[i].life){
-            bloods.splice(i,1);
+          image(settingMenu, canvasWidth/2 - canvasWidth/4, canvasHeight/2 - canvasHeight * 0.44, canvasWidth/2, canvasHeight * 0.88);
+          // back button
+          if(mouseX > canvasWidth*0.18 && mouseX < canvasWidth*0.18 + canvasWidth * 0.06 && mouseY > canvasHeight/2 - canvasHeight * 0.4 && mouseY < canvasHeight/2 - canvasHeight * 0.4 + canvasWidth * 0.06){
+            push();
+            tint(255,220);
+            image(backButton, canvasWidth*0.18, canvasHeight/2 - canvasHeight * 0.4, canvasWidth * 0.06, canvasWidth * 0.06);
+            pop();
+            if(!button3HoverPlayed){
+              buttonHover.play();
+              button3HoverPlayed = true;
+            }
+          }else{
+            button3HoverPlayed = false;
+            image(backButton, canvasWidth*0.18, canvasHeight/2 - canvasHeight * 0.4, canvasWidth * 0.06, canvasWidth * 0.06);
+          }
+          // easy button
+          if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3){
+            push();
+            tint(255,220);
+            image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+            pop();
+            if(!button4HoverPlayed){
+              buttonHover.play();
+              button4HoverPlayed = true;
+            }
+          }else{
+            button4HoverPlayed = false;
+            image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+          }
+          // medium button
+          if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3&& mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3){
+            push();
+            tint(255,220);
+            image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+            pop();
+            if(!button5HoverPlayed){
+              buttonHover.play();
+              button5HoverPlayed = true;
+            }
+          }else{
+            button5HoverPlayed = false;
+            image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+          }
+          // hard button
+          if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3 * 2 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3 * 2){
+            push();
+            tint(255,220);
+            image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+            pop();
+            if(!button6HoverPlayed){
+              buttonHover.play();
+              button6HoverPlayed = true;
+            }
+          }else{
+            button6HoverPlayed = false;
+            image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
           }
         }
       }
 
-      // draw the pieces
-      if(pieces.length > 0){
-        for(var i = 0; i < pieces.length; i ++ ){
-          pieces[i].update();
-          pieces[i].checkLife();
-          pieces[i].display();
-          if(!pieces[i].life){
-            pieces.splice(i,1);
+      // game starts
+      if(start && !over){
+          if(!bgPlayed){
+            bgMusic.loop();
+            bgPlayed = true;
           }
-        }
-      }
+          background(233,168,109);
+          //print(frameRate());
 
-      //draw the shadows
-      image(thePlayer.shadow, thePlayer.x, thePlayer.y, thePlayer.size, thePlayer.size);
-      for(var i = 0; i < theZombie.length; i ++ ){
-        image(theZombie[i].shadow, theZombie[i].x, theZombie[i].y, theZombie[i].size, theZombie[i].size);
-      }
+          updateDifficulty();
 
-      // draw player
-      thePlayer.checkWeapon();
-      thePlayer.fire();
-      thePlayer.move();
-      thePlayer.checkLife();
-      thePlayer.updateImage();
-      thePlayer.display();
+          // draw the map
+          theWorld.displayWorld();
+          offsetX = theWorld.offsetX;
+          offsetY = theWorld.offsetY;
 
-      // draw zoombies
-      for(var i = 0; i < theZombie.length; i ++ ){
-        theZombie[i].updatePosition();
-        theZombie[i].checkOverlapping();
-        //use voice to kill zombies
-          if(mostRecentWord == "quit"){
-            var p = random(0,1);
-            if(p < scareSoundPower){
-              theZombie[i].life = false;
-              scareSoundPower = 0;
+          // draw bullets
+          push();
+          translate(thePlayer.x, thePlayer.y);
+          for(var i = 0; i < bullets.length; i ++ ){
+            bullets[i].updatePosition();
+            bullets[i].checkEdge();
+            bullets[i].checkHit();
+            bullets[i].display();
+            if(!bullets[i].life){
+              bullets.splice(1, i);
             }
           }
-        theZombie[i].checkLife();
-        theZombie[i].updateImage();
-        theZombie[i].display();
-        if(!theZombie[i].life){
-          theZombie.splice(i,1);
-        }
-      }
-      // add new zombie
-      if(frameCount%100 == 0 && theZombie.length < maxZombie){
-        var z = new Zombie();
-        theZombie.push(z);
-      }
-      var index = floor(random(0,4));
-      if(frameCount%100 == 0){
-        zombiesSound[index].play();
-      }
+          pop();
 
-      // random lootbox
-      if(frameCount%1000 == 0){
-        boxExist = false;
-        theWorld.tileMap[preBoxRow][preBoxCol] = 0;
-        theWorld.tileMap[preBoxRow][preBoxCol + 1] = 0;
-        theWorld.tileMap[preBoxRow + 1][preBoxCol] = 0;
-        theWorld.tileMap[preBoxRow + 1][preBoxCol + 1] = 0;
-        if(random(0,1) > 0.5){
-          randomLootbox();
-        }
-      }
-
-      // draw explosion of RPG
-      for(var i = 0; i < explosions.length; i ++ ){
-        explosions[i].update();
-        explosions[i].checkLife();
-        explosions[i].display();
-        if(!explosions[i].life){
-          explosions.splice(i,1);
-        }
-      }
-
-      // draw the lootbox indicator
-      updateBoxLocation();
-      if(boxExist){
-        push();
-          var original = createVector(0, -10);
-          var boxLo = boxLocation.copy().sub(canvasWidth/2,canvasHeight/2);
-          var angle = original.angleBetween(boxLo);
-          translate(canvasWidth/2, canvasHeight/2);
-          if(boxLocation.x < canvasWidth/2){
-            rotate(TWO_PI - angle);
-          }else if(boxLocation.x > canvasWidth/2){
-            rotate(angle);
+          // draw the bloods
+          if(bloods.length > 0){
+            for(var i = 0; i < bloods.length; i ++ ){
+              bloods[i].update();
+              bloods[i].display();
+              if(!bloods[i].life){
+                bloods.splice(i,1);
+              }
+            }
           }
-          image(arrow,0, -thePlayer.size * 0.8, arrow.width/4, arrow.height/4);
-        pop();
+
+          // draw the pieces
+          if(pieces.length > 0){
+            for(var i = 0; i < pieces.length; i ++ ){
+              pieces[i].update();
+              pieces[i].checkLife();
+              pieces[i].display();
+              if(!pieces[i].life){
+                pieces.splice(i,1);
+              }
+            }
+          }
+
+          //draw the shadows
+          image(thePlayer.shadow, thePlayer.x, thePlayer.y, thePlayer.size, thePlayer.size);
+          for(var i = 0; i < theZombie.length; i ++ ){
+            image(theZombie[i].shadow, theZombie[i].x, theZombie[i].y, theZombie[i].size, theZombie[i].size);
+          }
+
+          // draw player
+          thePlayer.checkWeapon();
+          thePlayer.fire();
+          thePlayer.move();
+          thePlayer.checkLife();
+          thePlayer.updateImage();
+          thePlayer.display();
+
+          // draw zoombies
+          for(var i = 0; i < theZombie.length; i ++ ){
+            theZombie[i].updatePosition();
+            theZombie[i].checkOverlapping();
+            //use voice to kill zombies
+              if(mostRecentWord == "quit"){
+                var p = random(0,1);
+                if(p < scareSoundPower){
+                  theZombie[i].life = false;
+                  scareSoundPower = 0;
+                }
+              }
+            theZombie[i].checkLife();
+            theZombie[i].updateImage();
+            theZombie[i].display();
+            if(!theZombie[i].life){
+              theZombie.splice(i,1);
+            }
+          }
+          // add new zombie
+          if(frameCount%100 == 0 && theZombie.length < maxZombie){
+            var z = new Zombie();
+            theZombie.push(z);
+          }
+          var index = floor(random(0,4));
+          if(frameCount%100 == 0){
+            zombiesSound[index].play();
+          }
+
+          // random lootbox
+          if(frameCount%1000 == 0){
+            boxExist = false;
+            theWorld.tileMap[preBoxRow][preBoxCol] = 0;
+            theWorld.tileMap[preBoxRow][preBoxCol + 1] = 0;
+            theWorld.tileMap[preBoxRow + 1][preBoxCol] = 0;
+            theWorld.tileMap[preBoxRow + 1][preBoxCol + 1] = 0;
+            if(random(0,1) > 0.5){
+              randomLootbox();
+            }
+          }
+
+          // draw explosion of RPG
+          for(var i = 0; i < explosions.length; i ++ ){
+            explosions[i].update();
+            explosions[i].checkLife();
+            explosions[i].display();
+            if(!explosions[i].life){
+              explosions.splice(i,1);
+            }
+          }
+
+          // draw the lootbox indicator
+          updateBoxLocation();
+          if(boxExist){
+            push();
+              var original = createVector(0, -10);
+              var boxLo = boxLocation.copy().sub(canvasWidth/2,canvasHeight/2);
+              var angle = original.angleBetween(boxLo);
+              translate(canvasWidth/2, canvasHeight/2);
+              if(boxLocation.x < canvasWidth/2){
+                rotate(TWO_PI - angle);
+              }else if(boxLocation.x > canvasWidth/2){
+                rotate(angle);
+              }
+              image(arrow,0, -thePlayer.size * 0.8, arrow.width/4, arrow.height/4);
+            pop();
+          }
+
+          // draw the bullet cool down bar
+          var coolTime = map(thePlayer.timeCounter, thePlayer.coolTime, 0, 0, 100);
+          var coolTimeFill = 20;
+          noStroke();
+          fill(coolTimeFill);
+          rect(50,120,coolTime,10);
+
+          // display the score
+          textFont(myFont,18);
+          fill(20);
+          var length0 = textWidth("Score") + 10;
+          text("Score",50,40);
+          text(score, 50 + length0, 40);
+          // display bullet number
+          textFont(myFont,18);
+          fill(20);
+          var length1 = textWidth("Glock18") + 10;
+          var length2 = textWidth("M4A1") + 10;
+          var length3 = textWidth("RPG") + 10;
+          text("Glock18",50,60);
+          text(thePlayer.oneNumber,50 + length1,60);
+          text("M4A1",50,80);
+          text(thePlayer.twoNumber,50 + length1,80);
+          text("RPG",50,100);
+          text(thePlayer.threeNumber,50 + length1,100);
+
+          // draw the health bar of the Player
+          var health = map(thePlayer.health, 0, 100, 0, 100);
+          var healthFillR = map(health, 0, 100, 250, 0);
+          var healthFillG = map(health, 0, 100, 0, 150);
+          fill(20);
+          rect(50,140,100,10);
+          fill(healthFillR, healthFillG, 0);
+          rect(50,140,health,10);
       }
 
-      // draw the bullet cool down bar
-      var coolTime = map(thePlayer.timeCounter, thePlayer.coolTime, 0, 0, 100);
-      var coolTimeFill = 20;
-      noStroke();
-      fill(coolTimeFill);
-      rect(50,120,coolTime,10);
-
-      // display the score
-      textFont(myFont,18);
-      fill(20);
-      var length0 = textWidth("Score") + 10;
-      text("Score",50,40);
-      text(score, 50 + length0, 40);
-      // display bullet number
-      textFont(myFont,18);
-      fill(20);
-      var length1 = textWidth("Glock18") + 10;
-      var length2 = textWidth("M4A1") + 10;
-      var length3 = textWidth("RPG") + 10;
-      text("Glock18",50,60);
-      text(thePlayer.oneNumber,50 + length1,60);
-      text("M4A1",50,80);
-      text(thePlayer.twoNumber,50 + length1,80);
-      text("RPG",50,100);
-      text(thePlayer.threeNumber,50 + length1,100);
-
-      // draw the health bar of the Player
-      var health = map(thePlayer.health, 0, 100, 0, 100);
-      var healthFillR = map(health, 0, 100, 250, 0);
-      var healthFillG = map(health, 0, 100, 0, 150);
-      fill(20);
-      rect(50,140,100,10);
-      fill(healthFillR, healthFillG, 0);
-      rect(50,140,health,10);
-  }
-
-  // game ends
-  if(!start && over){
-    image(endImage,0,0,canvasWidth, canvasHeight);
-    if(mouseX > canvasWidth * 0.14 && mouseX < canvasWidth * 0.14 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.38 && mouseY < canvasHeight * 0.38 + canvasWidth * 0.2 * 0.35){
-      push();
-      tint(255,200);
-      image(endButton, canvasWidth * 0.14, canvasHeight * 0.375, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-      pop();
-      if(!buttonHoverPlayed){
-        buttonHover.play();
-        buttonHoverPlayed = true;
+      // game ends
+      if(!start && over){
+        image(endImage,0,0,canvasWidth, canvasHeight);
+        if(mouseX > canvasWidth * 0.14 && mouseX < canvasWidth * 0.14 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.38 && mouseY < canvasHeight * 0.38 + canvasWidth * 0.2 * 0.35){
+          push();
+          tint(255,200);
+          image(endButton, canvasWidth * 0.14, canvasHeight * 0.375, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+          pop();
+          if(!buttonHoverPlayed){
+            buttonHover.play();
+            buttonHoverPlayed = true;
+          }
+        }else{
+          image(endButton, canvasWidth * 0.14, canvasHeight * 0.38, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+          buttonHoverPlayed = false;
+        }
       }
-    }else{
-      image(endButton, canvasWidth * 0.14, canvasHeight * 0.38, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-      buttonHoverPlayed = false;
     }
-  }
 }
 
 function getTileMapList(){
@@ -1010,4 +1134,5 @@ function reset(){
   theWorld.tileMap[boxRow][boxCol + 1] = 0;
   theWorld.tileMap[boxRow + 1][boxCol] = 0;
   theWorld.tileMap[boxRow + 1][boxCol + 1] = 0;
+
 }
