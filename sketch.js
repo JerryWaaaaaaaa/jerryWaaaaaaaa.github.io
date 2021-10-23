@@ -141,23 +141,23 @@ function gameLoadSound(index, varName, fileName){
 }
 
 function preload(){
-  canvasWidth = windowWidth * 0.8;
-  canvasHeight = canvasWidth * 9/16;
+  canvasHeight = windowHeight*0.8;
+  canvasWidth = canvasHeight*16/9;
   moduleWidth = canvasWidth/50;
   moduleHeight = moduleWidth;
 }
 
 function windowResized(){
-    canvasWidth = windowWidth * 0.8;
-    canvasHeight = canvasWidth * 9/16;
+    canvasHeight = windowHeight*0.8;
+    canvasWidth = canvasHeight*16/9;
     moduleWidth = canvasWidth/50;
     moduleHeight = moduleWidth;
     resizeCanvas(canvasWidth,canvasHeight);
 }
 
 function setup(){
-    canvasWidth = windowWidth * 0.8;
-    canvasHeight = canvasWidth * 9/16;
+    canvasHeight = windowHeight*0.8;
+    canvasWidth = canvasHeight*16/9;
     moduleWidth = canvasWidth/50;
     moduleHeight = moduleWidth;
     canvas = createCanvas(canvasWidth, canvasHeight);
@@ -167,7 +167,7 @@ function setup(){
 
 
     //startImage = loadImage("tiles/begin.png");
-    startImage = gameLoadImage(loadCounter, startImage, "tiles/begin.png");
+    startImage = gameLoadImage(loadCounter, startImage, "tiles/begin.jpg");
     // startButton = loadImage("tiles/startButton.png");
     startButton = gameLoadImage(loadCounter, startButton, "tiles/startButton.png");
     // settingButton = loadImage("tiles/setting.png");
@@ -183,7 +183,7 @@ function setup(){
     // hard = loadImage("tiles/hard.png");
     hard = gameLoadImage(loadCounter, backButton, "tiles/hard.png");
     // endImage = loadImage("tiles/end.png");
-    endImage = gameLoadImage(loadCounter, backButton, "tiles/end.png");
+    endImage = gameLoadImage(loadCounter, backButton, "tiles/end.jpg");
     // endButton = loadImage("tiles/endButton.png");
     endButton = gameLoadImage(loadCounter, backButton, "tiles/endButton.png");
     // arrow = loadImage("tiles/arrow.png");
@@ -195,7 +195,7 @@ function setup(){
     }
 
     // myFont = loadFont("fonts/Montserrat-Medium.ttf");
-    myFont = gameLoadFont(loadCounter, myFont, "fonts/IndieFlower-Regular.ttf");
+    myFont = gameLoadFont(loadCounter, myFont, "fonts/ArchitectsDaughter-Regular.ttf");
 
     // bgMusic = loadSound("music/background.wav");
     bgMusic = gameLoadSound(loadCounter, bgMusic, "music/background.wav");
@@ -242,15 +242,15 @@ function setup(){
 function draw(){
     if(!loaded){
       cursor(ARROW);
-      background(231,167,114);
+      background(253,247,226);
       push();
       translate(canvasWidth/2, canvasHeight/2);
       noStroke();
       var rectWidth = map(loadCounter, 0, maxFile, 0, canvasWidth/2);
       fill(255,247,225);
-      rect(-canvasWidth/4,-15,canvasWidth/2,30,15);
+      rect(-canvasWidth/4,-15,canvasWidth/2,30);
       fill(52,19,18);
-      rect(-canvasWidth/4,-15,rectWidth,30,15);
+      rect(-canvasWidth/4,-15,rectWidth,30);
       pop();
     }else if(loaded){
       // before game starts
@@ -259,34 +259,37 @@ function draw(){
         if(!settingMenuOpen){
           image(startImage,0,0,canvasWidth, canvasHeight);
           // start Button
-          if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.5 && mouseY < canvasHeight * 0.5 + canvasWidth * 0.2 * 0.35){
+          if(mouseX > canvasWidth * 0.45 && mouseX < canvasWidth * 0.45 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.55 && mouseY < canvasHeight * 0.55 + canvasWidth * 0.2 * 0.35){
             push();
             tint(255,200);
-            image(startButton, canvasWidth * 0.51, canvasHeight * 0.495, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            image(startButton, canvasWidth * 0.45, canvasHeight * 0.54, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
             pop();
             if(!button1HoverPlayed){
               buttonHover.play();
               button1HoverPlayed = true;
             }
           }else{
-            image(startButton, canvasWidth * 0.51, canvasHeight * 0.5, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            image(startButton, canvasWidth * 0.45, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
             button1HoverPlayed = false;
           }
           // setting button
-          if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.645 && mouseY < canvasHeight * 0.645 + canvasWidth * 0.2 * 0.35){
+          if(mouseX > canvasWidth * 0.68 && mouseX < canvasWidth * 0.68 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.55 && mouseY < canvasHeight * 0.55 + canvasWidth * 0.2 * 0.35){
             push();
             tint(255,200);
-            image(settingButton, canvasWidth * 0.51, canvasHeight * 0.645, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            image(settingButton, canvasWidth * 0.68, canvasHeight * 0.54, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
             pop();
             if(!button2HoverPlayed){
               buttonHover.play();
               button2HoverPlayed = true;
             }
           }else{
-            image(settingButton, canvasWidth * 0.51, canvasHeight * 0.65, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            image(settingButton, canvasWidth * 0.68, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
             button2HoverPlayed = false;
           }
         }
+        // textFont(myFont,30);
+        // fill(52,19,18);
+        // text('Move Your Character\nUP-"W" Left-"A" Down-"S" Right-"D"', canvasWidth * 0.45, canvasHeight * 0.75);
 
         // setting interface
         if(settingMenuOpen){
@@ -536,12 +539,12 @@ function draw(){
         // show final score
         textFont(myFont,40);
         fill(52,19,18);
-        text("Final Score is: ", canvasWidth * 0.54, canvasHeight * 0.5);
-        text(score, canvasWidth * 0.54, canvasHeight * 0.55);
-        if(mouseX > canvasWidth * 0.54 && mouseX < canvasWidth * 0.54 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.58 && mouseY < canvasHeight * 0.58 + canvasWidth * 0.2 * 0.35){
+        text("Your Final Score is: " + score, canvasWidth * 0.54, canvasHeight * 0.5);
+        // text(score, canvasWidth * 0.54, canvasHeight * 0.55);
+        if(mouseX > canvasWidth * 0.54 && mouseX < canvasWidth * 0.63 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.58 && mouseY < canvasHeight * 0.58 + canvasWidth * 0.2 * 0.35){
           push();
           tint(255,200);
-          image(endButton, canvasWidth * 0.54, canvasHeight * 0.575, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+          image(endButton, canvasWidth * 0.54, canvasHeight * 0.57, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
           pop();
           if(!buttonHoverPlayed){
             buttonHover.play();
@@ -1004,14 +1007,14 @@ function mousePressed(){
   if(!start && !over){
     if(!settingMenuOpen){
       // start button
-      if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.5 && mouseY < canvasHeight * 0.5 + canvasWidth * 0.2 * 0.35){
-        image(startButton, canvasWidth * 0.51, canvasHeight * 0.5, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+      if(mouseX > canvasWidth * 0.45 && mouseX < canvasWidth * 0.45 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.55 && mouseY < canvasHeight * 0.55 + canvasWidth * 0.2 * 0.35){
+        image(startButton, canvasWidth * 0.45, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
         buttonClick.play();
         start = true;
       }
       // setting button
-      if(mouseX > canvasWidth * 0.51 && mouseX < canvasWidth * 0.51 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.645 && mouseY < canvasHeight * 0.645 + canvasWidth * 0.2 * 0.35){
-        image(settingButton, canvasWidth * 0.51, canvasHeight * 0.65, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+      if(mouseX > canvasWidth * 0.68 && mouseX < canvasWidth * 0.68 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.55 && mouseY < canvasHeight * 0.55 + canvasWidth * 0.2 * 0.35){
+        image(settingButton, canvasWidth * 0.68, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
         buttonClick.play();
         settingMenuOpen = true;
       }

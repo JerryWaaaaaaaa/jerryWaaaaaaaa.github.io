@@ -9,22 +9,33 @@
 	<script src="p5/p5.js"></script>
 	<script src="p5/p5.sound.js"></script>
 	<script src="p5/p5.speech.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Amatic+SC|Walter+Turncoat" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Walter+Turncoat" rel="stylesheet"> -->
 	<link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
 	<style>
 		#canvasBox{
-			width:80%;
-			margin:auto;
-			margin-top: 50px;
+			width:100vw;
+			height:100vh;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			position: sticky;
+			top: 0px;
+			z-index: -1;
 		}
 
-		#content{
-			width:60%;
-			margin:auto;
+		canvas{
+			z-index: 1;
 		}
 
 		body{
-			background-color: rgb(255,246,220);
+			background-color: #FDF7E2;
+			margin: 0px;
+			position: static;
 		}
 
 		h2{
@@ -32,7 +43,8 @@
 			text-align: center;
 			font-size: 50px;
 			/* font-family: 'Walter Turncoat', cursive; */
-			font-family: 'Indie Flower', cursive;
+			/* font-family: 'Indie Flower', cursive; */
+			font-family: 'Architects Daughter', cursive;
 			margin-bottom: 10px;
 			margin-top: 10px;
 		}
@@ -43,26 +55,65 @@
 
 		p{
 			text-align: center;
-			font-size: 26px;
+			font-size: 24px;
+			line-height: 150%;
 			/* font-family: 'Amatic SC', cursive; */
-			font-family: 'Indie Flower', cursive;
-			margin-top: 0px;
-			margin-bottom: 10px;
+			/* font-family: 'Indie Flower', cursive; */
+			font-family: 'Architects Daughter', cursive;
+			margin: 0px;
 		}
+
+		#tutorial_container{
+
+			/* margin-top: 100vh; */
+			margin-bottom: 0px;
+			padding: 20px 40px;
+			width: 100%;
+			/* height: 100vh; */
+			z-index: 10 !important;
+			background-color: #452322;
+			color: #fff;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.text_container{
+			width: 100%;
+			height: auto;
+			padding: 20px 40px;
+			box-sizing: border-box;
+			margin: 0px;
+			/* position: fixed; */
+			/* bottom: 0px; */
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		#copyright_text{
+			font-size: 24px;
+			position: absolute;
+			bottom: 20px;
+		}
+
 	</style>
 </head>
 
 
 <body>
-	<div id="canvasBox"></div>
-	<h2>Western Desert</h2>
-	<br>
-	<div id="content">
-		<p>Move: <strong> W, A, S, D </strong>------ Fire: <strong> J </strong> ------- Switch Weapons: <strong>1, 2, 3</strong> </p>
-		<p>Change difficulty level in <strong>SETTING</strong>. The default difficulty is EASY.</p>
-		<p>Shout out <strong>"I QUIT!"</strong> when you think you can't make it.</p>
+	<div id="canvasBox">
+		<p id="copyright_text">Tutorial ↑</p>
 	</div>
-	<br>
-	<p id="copyright">&copy Jerry Wang - Oct, 2018</p>
-	<br>
+	<div id="tutorial_container">
+		<div class="text_container">
+				<p>Move Up-"W", Move Down-"S", Move Left-"A", Move Right-"D".</p>
+				<p>Fire-"J", Long press "J" for automatic fire.</p>
+				<p>Swtich the Weapon: Handgun-"1", Rifle-"2", RPG-"3".</p>
+				<p>Lootbox will appear randomly on the map, pick it up for reinforcement.</p>
+		</div>
+		<div class="text_container">
+				<p >&copy Jerry Wang 2018. All Rights Reserved.</p>
+		</div>
+	</div>
 </body>
