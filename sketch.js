@@ -73,6 +73,7 @@ var boxLocation;
 // for difficulty setting
 var maxZombie;
 var difficulty;
+var levelString = "EASY";
 
 // for pre-game & game start
 var start = false;
@@ -259,31 +260,32 @@ function draw(){
         if(!settingMenuOpen){
           image(startImage,0,0,canvasWidth, canvasHeight);
           // start Button
+          // hovered
           if(mouseX > canvasWidth * 0.45 && mouseX < canvasWidth * 0.45 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.55 && mouseY < canvasHeight * 0.55 + canvasWidth * 0.2 * 0.35){
-            push();
-            tint(255,200);
-            image(startButton, canvasWidth * 0.45, canvasHeight * 0.54, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-            pop();
+            image(startButton, canvasWidth * 0.45, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
             if(!button1HoverPlayed){
               buttonHover.play();
               button1HoverPlayed = true;
             }
           }else{
+            push();
+            tint(255,240);
             image(startButton, canvasWidth * 0.45, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            pop();
             button1HoverPlayed = false;
           }
           // setting button
           if(mouseX > canvasWidth * 0.68 && mouseX < canvasWidth * 0.68 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.55 && mouseY < canvasHeight * 0.55 + canvasWidth * 0.2 * 0.35){
-            push();
-            tint(255,200);
-            image(settingButton, canvasWidth * 0.68, canvasHeight * 0.54, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-            pop();
+            image(settingButton, canvasWidth * 0.68, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
             if(!button2HoverPlayed){
               buttonHover.play();
               button2HoverPlayed = true;
             }
           }else{
+            push();
+            tint(255,240);
             image(settingButton, canvasWidth * 0.68, canvasHeight * 0.55, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+            pop();
             button2HoverPlayed = false;
           }
         }
@@ -296,67 +298,71 @@ function draw(){
           push();
           image(startImage,0,0,canvasWidth, canvasHeight);
           noStroke();
-          fill(255,255,255,100);
+          fill(255,247,224,230);
           rect(0,0,canvasWidth, canvasHeight);
           pop();
 
           image(settingMenu, canvasWidth/2 - canvasWidth/4, canvasHeight/2 - canvasHeight * 0.44, canvasWidth/2, canvasHeight * 0.88);
           // back button
           if(mouseX > canvasWidth*0.18 && mouseX < canvasWidth*0.18 + canvasWidth * 0.06 && mouseY > canvasHeight/2 - canvasHeight * 0.4 && mouseY < canvasHeight/2 - canvasHeight * 0.4 + canvasWidth * 0.06){
-            push();
-            tint(255,220);
             image(backButton, canvasWidth*0.18, canvasHeight/2 - canvasHeight * 0.4, canvasWidth * 0.06, canvasWidth * 0.06);
-            pop();
             if(!button3HoverPlayed){
               buttonHover.play();
               button3HoverPlayed = true;
             }
           }else{
             button3HoverPlayed = false;
+            push();
+            tint(255,240);
             image(backButton, canvasWidth*0.18, canvasHeight/2 - canvasHeight * 0.4, canvasWidth * 0.06, canvasWidth * 0.06);
+            pop();
           }
           // easy button
           if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3){
-            push();
-            tint(255,220);
             image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-            pop();
             if(!button4HoverPlayed){
               buttonHover.play();
               button4HoverPlayed = true;
             }
           }else{
             button4HoverPlayed = false;
+            push();
+            tint(255,220);
             image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+            pop();
           }
           // medium button
           if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3&& mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3){
-            push();
-            tint(255,220);
             image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-            pop();
             if(!button5HoverPlayed){
               buttonHover.play();
               button5HoverPlayed = true;
             }
           }else{
             button5HoverPlayed = false;
+            push();
+            tint(255,220);
             image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+            pop();
           }
           // hard button
           if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3 * 2 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3 * 2){
-            push();
-            tint(255,220);
             image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
-            pop();
             if(!button6HoverPlayed){
               buttonHover.play();
               button6HoverPlayed = true;
             }
           }else{
             button6HoverPlayed = false;
+            push();
+            tint(255,220);
             image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
+            pop();
           }
+          textFont(myFont,32);
+          fill(52,19,18);
+          text("CURRENT LEVEL\n" + levelString, canvasWidth * 0.5, canvasHeight * 0.4);
+          textAlign(CENTER);
         }
       }
 
@@ -542,16 +548,18 @@ function draw(){
         text("Your Final Score is: " + score, canvasWidth * 0.54, canvasHeight * 0.5);
         // text(score, canvasWidth * 0.54, canvasHeight * 0.55);
         if(mouseX > canvasWidth * 0.54 && mouseX < canvasWidth * 0.63 + canvasWidth * 0.2 && mouseY > canvasHeight * 0.58 && mouseY < canvasHeight * 0.58 + canvasWidth * 0.2 * 0.35){
-          push();
-          tint(255,200);
-          image(endButton, canvasWidth * 0.54, canvasHeight * 0.57, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
-          pop();
+
+          image(endButton, canvasWidth * 0.54, canvasHeight * 0.58, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+
           if(!buttonHoverPlayed){
             buttonHover.play();
             buttonHoverPlayed = true;
           }
         }else{
+          push();
+          tint(255,240);
           image(endButton, canvasWidth * 0.54, canvasHeight * 0.58, canvasWidth * 0.2, canvasWidth * 0.2 * 0.35);
+          pop();
           buttonHoverPlayed = false;
         }
       }
@@ -945,8 +953,8 @@ function parseResult(){
 }
 
 function updateDifficulty(){
-  if((score - preScore) > 20){
-    maxZombie += 5;
+  if(score > 100 & (score - preScore) > 10){
+    maxZombie += 1;
     if(maxZombie >= difficulty){
       maxZombie = difficulty;
     }
@@ -1028,19 +1036,22 @@ function mousePressed(){
       }
       // easy button
       if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3){
-        difficulty = 10;
+        difficulty = 15;
+        levelString = "EASY";
         buttonClick.play();
         image(easy, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
       }
       // medium button
       if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3&& mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3){
-        difficulty = 30;
+        difficulty = 25;
+        levelString = "MEDIUM";
         buttonClick.play();
         image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
       }
       // hard button
       if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3 * 2 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3 * 2){
-        difficulty = 50;
+        difficulty = 40;
+        levelString = "HARD";
         buttonClick.play();
         image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
       }
@@ -1092,8 +1103,8 @@ function reset(){
   // preset of score
   score = 0;
   preScore = 0;
-  maxZombie = 5;
-  difficulty = 10;
+  maxZombie = 6;
+  difficulty = 1;
   scareSoundPower = 1;
 
   boxExist = false;

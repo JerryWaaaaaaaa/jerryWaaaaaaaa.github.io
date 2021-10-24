@@ -28,6 +28,11 @@
 			z-index: -1;
 		}
 
+		#myCanvas{
+
+			z-index: -1;
+		}
+
 		canvas{
 			z-index: 1;
 		}
@@ -97,6 +102,19 @@
 			bottom: 20px;
 		}
 
+		.game_Button{
+			position: absolute;
+			width: auto;
+			height: auto;
+			background: none;
+			border: none;
+		}
+
+		#start{
+			top:40vw;
+			left:45vw;
+		}
+
 	</style>
 </head>
 
@@ -104,13 +122,16 @@
 <body>
 	<div id="canvasBox">
 		<p id="copyright_text">Tutorial ↑</p>
+		<!-- <button class="game_Button" id="start" onclick="startGame()"><image src="tiles/startButton.png" id="start_img"></button> -->
 	</div>
 	<div id="tutorial_container">
 		<div class="text_container">
+				<p> Close Tutorial ↓</p><br>
 				<p>Move Up-"W", Move Down-"S", Move Left-"A", Move Right-"D".</p>
 				<p>Fire-"J", Long press "J" for automatic fire.</p>
 				<p>Swtich the Weapon: Handgun-"1", Rifle-"2", RPG-"3".</p>
 				<p>Lootbox will appear randomly on the map, pick it up for reinforcement.</p>
+				<p>If you can't handle the zombies, try shouting out "I QUIT!" (Microphone access required).</p>
 		</div>
 		<div class="text_container">
 				<p >&copy Jerry Wang 2018. All Rights Reserved.</p>
