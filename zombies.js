@@ -6,6 +6,7 @@ class Zombie{
 
     // store the moving speed of the zombies
     this.speed = 1;
+    this.initial_speed = 1;
 
     // store the sensors of the zoombies
     this.left;
@@ -93,6 +94,7 @@ class Zombie{
     }
   }
 
+
   checkLife(){
     if(this.health <= 0){
       this.life = false;
@@ -105,12 +107,18 @@ class Zombie{
         score += 10;
       }
       var b = new Blood(this.x, this.y);
-      bloods.push(b);
-      piecesSound.play();
+        bloods.push(b);
+        piecesSound.play();
       for(var i = 0; i < 7; i ++ ){
         var p = new Pieces(this.x, this.y, i);
         pieces.push(p);
       }
+    }
+  }
+
+  checkSpeed(){
+    if(frameCount%50 == 0 && this.speed != this.initial_speed){
+      this.speed = this.initial_speed;
     }
   }
 
@@ -339,8 +347,9 @@ class Zombie{
   checkBoss(){
       if(random(0,1) < 0.1){
         this.boss = true;
-        this.health = 500;
+        this.health = 400;
         this.speed = 2.4;
+        this.initial_speed = 2.4;
       }
   }
 

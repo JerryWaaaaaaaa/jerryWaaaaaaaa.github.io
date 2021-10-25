@@ -20,8 +20,8 @@ function Player(x, y, world) {
 
   // define bulletSpeed
   this.bulletSpeed = 4;
-  this.oneNumber = 100;
-  this.twoNumber = 100;
+  this.oneNumber = 80;
+  this.twoNumber = 350;
   this.threeNumber = 10;
 
   // store the player direction
@@ -84,8 +84,8 @@ function Player(x, y, world) {
 
     push();
       if(this.health <= 40){
-        var o = map(this.health, 0, 40, 200, 100);
-        tint(110,10,10,o);
+        var t = map(this.health, 0, 40, 200, 100);
+        tint(110,10,10,t);
         image(this.currentImage, this.x, this.y, this.size, this.size);
       }
     pop();
@@ -124,7 +124,7 @@ function Player(x, y, world) {
       this.sound2Played = false;
       this.sound3Played = false;
       this.weaponMode = 1;
-      this.bulletSpeed = 4;
+      this.bulletSpeed = 5;
       this.coolTime = 15;
       this.currentShotSound = glockShot;
     }else if(keyIsDown(50)){
@@ -135,7 +135,7 @@ function Player(x, y, world) {
       this.sound3Played = false;
       this.weaponMode = 2;
       this.bulletSpeed = 5;
-      this.coolTime = 4;
+      this.coolTime = 5;
       this.currentShotSound = M4A1Shot;
     }else if(keyIsDown(51)){
       this.weapon1Changed = false;
@@ -144,7 +144,7 @@ function Player(x, y, world) {
       this.sound1Played = false;
       this.sound2Played = false;
       this.weaponMode = 3;
-      this.bulletSpeed = 6;
+      this.bulletSpeed = 7;
       this.coolTime = 40;
       this.currentShotSound = RPGShot;
     }
@@ -441,15 +441,15 @@ function Player(x, y, world) {
     boxExist = false;
     boxSound.play();
     var possibility = random(0,100);
-    if(possibility < 40){
+    if(possibility < 30){
       this.oneNumber += int(random(18,25)) * 10;
-    }else if(possibility > 40 && possibility < 65){
-      this.twoNumber += int(random(18,25)) * 10;
-    }else if(possibility > 65 && possibility < 85){
-      this.threeNumber += int(random(1,4)) * 10;
-    }else if(possibility > 85){
+    }else if(possibility > 30 && possibility < 65){
+      this.twoNumber += int(random(30,45)) * 10;
+    }else if(possibility > 65 && possibility < 80){
+      this.threeNumber += int(random(0.8,1.3)) * 10;
+    }else if(possibility > 80){
       // add health
-      this.health += int(random(4,7)) * 10;
+      this.health += int(random(4,9)) * 10;
       if(this.health >= 100){
         this.health = 100;
       }

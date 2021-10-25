@@ -447,6 +447,7 @@ function draw(){
                 }
               }
             theZombie[i].checkLife();
+            theZombie[i].checkSpeed();
             theZombie[i].updateImage();
             theZombie[i].display();
             if(!theZombie[i].life){
@@ -773,8 +774,9 @@ class Bullets{
           //print("Zombie got hit!");
           if(!theZombie[i].attacked){
             theZombie[i].attacked = true;
+            theZombie[i].speed = theZombie[i].speed * 0.4;
             if(this.mode == 1){
-              theZombie[i].health -= 25;
+              theZombie[i].health -= 50;
             }
             else if(this.mode == 2){
               theZombie[i].health -= 20;
@@ -787,8 +789,8 @@ class Bullets{
               for(var j = 0; j < theZombie.length; j ++ ){
                 if(!(i == j)){
                   var dis = dist(theZombie[i].x, theZombie[i].y, theZombie[j].x, theZombie[j].y);
-                  if(dis <= theZombie[i].size * 2){
-                    theZombie[j].health -= 250;
+                  if(dis <= theZombie[i].size * 3){
+                    theZombie[j].health -= 200;
                   }
                 }
               }
@@ -953,7 +955,7 @@ function parseResult(){
 }
 
 function updateDifficulty(){
-  if(score > 100 & (score - preScore) > 10){
+  if(score > 50 & (score - preScore) > 10){
     maxZombie += 1;
     if(maxZombie >= difficulty){
       maxZombie = difficulty;
@@ -1043,14 +1045,14 @@ function mousePressed(){
       }
       // medium button
       if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3&& mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3){
-        difficulty = 25;
+        difficulty = 23;
         levelString = "MEDIUM";
         buttonClick.play();
         image(medium, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
       }
       // hard button
       if(mouseX > canvasWidth/2 - canvasWidth * 0.16 /2 && mouseX < canvasWidth/2 - canvasWidth * 0.16 /2 + canvasWidth * 0.16 && mouseY > canvasHeight * 0.48  + canvasWidth * 0.2 * 0.3 * 2 && mouseY < canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 + canvasWidth * 0.2 * 0.3 * 2){
-        difficulty = 40;
+        difficulty = 30;
         levelString = "HARD";
         buttonClick.play();
         image(hard, canvasWidth/2 - canvasWidth * 0.16 /2, canvasHeight * 0.48 + canvasWidth * 0.2 * 0.3 * 2, canvasWidth * 0.16, canvasWidth * 0.2 * 0.3);
